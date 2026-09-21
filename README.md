@@ -2,7 +2,7 @@
 Laboratorio 3 - Sistemas de Información para la Gestión - Implementacion del laboratorio de automatizacion de devoluciones en n8n.
 # ICN292 - Laboratorio 3
 ## Parametros personales- S = 280- U = 60000
-**Estudiante:** [Nombre Apellido]
+**Estudiante:** Wan Lo Xie
 **Semilla S (RUT sin DV, segun enunciado):** 280
 **Fecha:** [fecha de entrega]- D = 7
 ## Archivos principales
