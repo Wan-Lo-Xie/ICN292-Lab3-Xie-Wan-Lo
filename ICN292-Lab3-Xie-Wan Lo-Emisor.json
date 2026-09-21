@@ -1,0 +1,60 @@
+{
+  "name": "ICN292 Lab3 - Emisor S280",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "044ab38d-6729-43ca-b7ed-b7c6c72cfc4c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wanlo.app.n8n.cloud/webhook/lab3-devoluciones-S280",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"id_solicitud\": \"PRUEBA-SKU-INVALIDO\",\n  \"sku\": \"ZZ-999\",\n  \"monto\": \"10000\",\n  \"dias_desde_compra\": \"2\",\n  \"estado_producto\": \"sin_abrir\",\n  \"email_cliente\": \"prueba@example.cl\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        176,
+        0
+      ],
+      "id": "efe586ef-a6b0-4b85-974a-9658aaeecbdc",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "27b2dc51-2e6b-4205-aebf-d1383a584cd0",
+  "meta": {
+    "instanceId": "d8a96ed6f3104c356eec6d6ed2d90be14cfb7feb6dd12d99b3c7f379eb494f6e"
+  },
+  "nodeGroups": [],
+  "id": "dMbXFMuOBta6G5vi",
+  "tags": []
+}

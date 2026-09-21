@@ -1,0 +1,293 @@
+{
+  "name": "ICN292 Lab3 - Resumen S280",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7f2410c6-8d46-44b9-98cf-aac91385d86b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "JVjGRb6xuD3Y63H4",
+          "mode": "list",
+          "cachedResultName": "lab3_registro_devoluciones_S280",
+          "cachedResultUrl": "/projects/KGCePFE8bLu56jrK/datatables/JVjGRb6xuD3Y63H4"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "fecha_dia",
+              "keyValue": "={{ $now.toFormat('yyyy-MM-dd') }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "f9ec34f7-605d-4725-a219-9b9411378d6c",
+      "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9c0fba6b-af8d-4936-9a49-0ee0c3fbe5b6",
+              "name": "n_aprobacion",
+              "value": "={{ $json.ruta === 'APROBACION' ? 1 : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "4e5841cd-7e54-417c-9ee3-20d19b14668a",
+              "name": "n_revision",
+              "value": "={{ $json.ruta === 'REVISION' ? 1 : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "eaea7a62-f84e-49fe-9d0b-7f0657a5d3a0",
+              "name": "n_rechazo",
+              "value": "={{ $json.ruta === 'RECHAZO' ? 1 : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "01671f73-1cb9-4085-8644-95d7d590a4b3",
+              "name": "n_invalida",
+              "value": "={{ $json.ruta === 'INVALIDA' ? 1 : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "2c8b25f1-cd85-4e68-8676-89d469ed812c",
+              "name": "m_aprobacion",
+              "value": "={{ $json.ruta === 'APROBACION' ? $json.monto : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "d4f8d10a-2c59-4085-93af-b5f9f636badf",
+              "name": "m_revision",
+              "value": "={{ $json.ruta === 'REVISION' ? $json.monto : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "17919a7a-e8c1-4757-8a5c-2cf991f1ccaf",
+              "name": "m_rechazo",
+              "value": "={{ $json.ruta === 'RECHAZO' ? $json.monto : 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "4b61bb51-2057-424b-8b4f-2f0462390f21",
+              "name": "m_invalida",
+              "value": "={{ $json.ruta === 'INVALIDA' ? $json.monto : 0 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "311e4e3f-ae2f-41f1-8eb6-1a7f217aa1a8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "sum",
+              "field": "n_aprobacion"
+            },
+            {
+              "aggregation": "sum",
+              "field": "n_revision"
+            },
+            {
+              "aggregation": "sum",
+              "field": "n_rechazo"
+            },
+            {
+              "aggregation": "sum",
+              "field": "n_invalida"
+            },
+            {
+              "aggregation": "sum",
+              "field": "m_aprobacion"
+            },
+            {
+              "aggregation": "sum",
+              "field": "m_revision"
+            },
+            {
+              "aggregation": "sum",
+              "field": "m_rechazo"
+            },
+            {
+              "aggregation": "sum",
+              "field": "m_invalida"
+            },
+            {
+              "aggregation": "sum",
+              "field": "monto"
+            },
+            {
+              "field": "id_solicitud"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "905d4899-aef6-4bac-8eef-3eaea057d9f3",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8813bd1-5952-444a-8820-fab670fb3ef7",
+              "name": "mensaje",
+              "value": "={{ `Resumen diario Lab 3 Fecha: ${$now.toFormat('yyyy-MM-dd')}  Solicitudes por ruta: - APROBACION: ${$json.sum_n_aprobacion} - REVISION: ${$json.sum_n_revision} - RECHAZO: ${$json.sum_n_rechazo} - INVALIDA: ${$json.sum_n_invalida}  Monto por ruta: - APROBACION: $${$json.sum_m_aprobacion} - REVISION: $${$json.sum_m_revision} - RECHAZO: $${$json.sum_m_rechazo} - INVALIDA: $${$json.sum_m_invalida}  Monto total del dia: $${$json.sum_monto}  Tasa aprobacion automatica: ${((100 * $json.sum_n_aprobacion) / $json.count_id_solicitud).toFixed(2)} %` }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        896,
+        0
+      ],
+      "id": "22cfd496-7c84-4a09-8747-6862fe8279f4",
+      "name": "Preparar mensaje resumen"
+    },
+    {
+      "parameters": {
+        "sendTo": "elwalle2004@gmail.com",
+        "subject": "Resumen diario Lab 3 - S280",
+        "emailType": "text",
+        "message": "={{ $json.mensaje }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "554e8edd-7b00-471f-8c0b-f9a28de1681e",
+      "name": "Send a message",
+      "webhookId": "11f3bcf1-668f-4007-9afe-a4dbae23d152",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0gBmu3CMyUYq7OPh",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Preparar mensaje resumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar mensaje resumen": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "89a0e94b-dfc7-4ef3-a07a-2b554ae8d043",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d8a96ed6f3104c356eec6d6ed2d90be14cfb7feb6dd12d99b3c7f379eb494f6e"
+  },
+  "nodeGroups": [],
+  "id": "4rlOPtcAknwyc0rf",
+  "tags": []
+}
