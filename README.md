@@ -3,7 +3,8 @@ Laboratorio 3 - Sistemas de Información para la Gestión - Implementacion del l
 # ICN292 - Laboratorio 3
 ## Parametros personales- S = 280- U = 60000
 **Estudiante:** Wan Lo Xie
-**Semilla S (RUT sin DV, segun enunciado):** 280
+**Semilla S :** 280
+**Rut sin DV: 21552280
 **Fecha:** [fecha de entrega]- D = 7
 ## Archivos principales
 ## Parametros personales- S = 280- U = 60000- D = 7- ...-triage.json: recibe y clasifica solicitudes.- ...-emisor.json: envia solicitudes de prueba al Webhook.- ...-resumen.json: genera el resumen diario programado.- informe.pdf: desarrollo, resultados y evidencias.
